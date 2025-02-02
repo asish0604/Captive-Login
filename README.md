@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Captive-Login
 Script to login to captive portal of Wifi
 
