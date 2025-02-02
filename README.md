@@ -117,5 +117,3 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 📞 Contact
 For any issues or questions, please open an issue on GitHub.
 
-=======
->>>>>>> 8863dc4 (Made the code for public use removing personal info)
