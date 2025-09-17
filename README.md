@@ -17,7 +17,7 @@ Before you begin, ensure you have the following installed:
 
 First, clone the repository to your local machine:
 ```sh
-git clone https://github.com/yourusername/wifi-login.git
+git clone https://github.com/asish0604/Captive-Login.git
 cd wifi-login
 ```
 
