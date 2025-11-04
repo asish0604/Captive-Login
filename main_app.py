@@ -1,12 +1,16 @@
 import customtkinter as ctk
 import json
 from wifi_login import login
+import sys
 
 def logger():
     creds = json.load(open("creds.json"))
     username, password = creds["username"], creds["password"]
     login(username, password)
 
+if "-l" in sys.argv or "--login" in sys.argv:
+    logger()
+    sys.exit(0)
 def change(usr, passw):
     with open("creds.json", "r") as f:
         creds = json.load(f)

@@ -1,20 +1,19 @@
 import requests
 
 def login(username, password):
-
-# Login URL
+    # Login URL
     login_url = "http://10.10.10.2:8090/login.xml"
 
-# Form data (replace with your actual credentials)
+    # Form data
     payload = {
         "mode": "191",
-        "username": username,  # Your college username
-        "password": password,  # Your password
-        "a": "1738391626450",  # Dynamic value (may need updating)
+        "username": username,
+        "password": password,
+        "a": "1738391626450",
         "producttype": "0"
     }
 
-# Headers (copied from the request)
+    # Headers
     headers = {
         "Content-Type": "application/x-www-form-urlencoded",
         "Origin": "http://10.10.10.2:8090",
@@ -22,17 +21,33 @@ def login(username, password):
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)"
     }
 
-# Create a session
     session = requests.Session()
 
-# Send the POST request
-    response = session.post(login_url, data=payload, headers=headers)
+    try:
+        # Send POST request with a timeout
+        response = session.post(login_url, data=payload, headers=headers, timeout=5)
 
-# Check if login was successful
-    if response.status_code == 200 and "success" in response.text.lower():
-        print(" Wifi Login successful!")
-        return True
-    else:
-        print("Wifi Login failed!")
-        print(response.text)  # Print the response to debug
+        if response.status_code == 200:
+            if "success" in response.text.lower():
+                print("Wifi Login successful!")
+                return True
+            else:
+                print("Wifi Login failed!")
+                print(response.text)
+                return False
+        else:
+            print(f"Server returned status code: {response.status_code}")
+            return False
+
+    except requests.exceptions.Timeout:
+        print("Connection timed out! The login server didn’t respond.")
         return False
+
+    except requests.exceptions.ConnectionError:
+        print("Network error! Check if you're connected to the correct Wi-Fi.")
+        return False
+
+    except requests.exceptions.RequestException as e:
+        print(f"An unexpected error occurred: {e}")
+        return False
+
