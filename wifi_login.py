@@ -31,7 +31,8 @@ def login(username, password):
 # Check if login was successful
     if response.status_code == 200 and "success" in response.text.lower():
         print(" Wifi Login successful!")
+        return True
     else:
         print("Wifi Login failed!")
         print(response.text)  # Print the response to debug
-
+        return False

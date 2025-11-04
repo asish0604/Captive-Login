@@ -1,77 +1,108 @@
-import tkinter as tk
+import customtkinter as ctk
 import json
 from wifi_login import login
 
 def logger():
     creds = json.load(open("creds.json"))
-    username,password = creds["username"], creds["password"]
+    username, password = creds["username"], creds["password"]
+    login(username, password)
 
-    login(username,password)
+def change(usr, passw):
+    with open("creds.json", "r") as f:
+        creds = json.load(f)
+    creds["username"] = usr
+    creds["password"] = passw
+    with open("creds.json", "w") as f:
+        json.dump(creds, f, indent=4)
 
-def change(usr,passw):
-    with open("creds.json","r") as f:
-        creds=json.load(f)
+ctk.set_appearance_mode("dark")
+ctk.set_default_color_theme("blue")
 
-    creds["username"]=usr
-    creds["password"]=passw
-    
-    with open("creds.json","w") as f:
-        json.dump(creds,f,indent=4)
-
-
-window = tk.Tk()
+window = ctk.CTk()
 window.title("Wifi Loginer")
-window.geometry("300x150")
+window.geometry("400x350")
+window.resizable(False, False)
 
-label =tk.Label(
+
+label = ctk.CTkLabel(
     master=window,
     text="Login to Wifi",
-    font=("Arial",15)
+    font=ctk.CTkFont(size=24, weight="bold"),
+    text_color="#EAEAEA"
 )
-label.pack(pady=40)
+label.pack(pady=(40, 20))
 
-button =tk.Button(
+
+button_login = ctk.CTkButton(
     master=window,
-    text ="Login Now",
-    font=("Arial",20),
+    text="Login Now",
+    font=ctk.CTkFont(size=18, weight="bold"),
+    height=45,
+    width=200,
+    corner_radius=12,
     command=logger
 )
-button.pack(pady=40)
+button_login.pack(pady=10)
+
 
 def create_popup():
-    changecred_window =tk.Toplevel()
+    changecred_window = ctk.CTkToplevel()
     changecred_window.title("Change Credentials")
+    changecred_window.geometry("350x300")
+    changecred_window.resizable(False, False)
 
-    username_entry=tk.Entry(
-    master=changecred_window,
-    font=("arial",20),
+    title_label = ctk.CTkLabel(
+        master=changecred_window,
+        text="Update Credentials",
+        font=ctk.CTkFont(size=20, weight="bold")
     )
-    username_entry.pack(pady=40)
-    
-    password_entry=tk.Entry(
-    master=changecred_window,
-    font=("arial",20),
-    )
-    password_entry.pack(pady=40)
+    title_label.pack(pady=(25, 10))
 
-    button =tk.Button(
-    master=changecred_window,
-    text ="Change",
-    font=("Arial",20),
-    command=lambda: [change(username_entry.get(), password_entry.get()), changecred_window.destroy()]
+    username_entry = ctk.CTkEntry(
+        master=changecred_window,
+        placeholder_text="Enter Username",
+        width=250,
+        height=40,
+        font=ctk.CTkFont(size=16)
     )
-    button.pack(pady=40)
+    username_entry.pack(pady=(10, 10))
 
-button =tk.Button(
+    password_entry = ctk.CTkEntry(
+        master=changecred_window,
+        placeholder_text="Enter Password",
+        width=250,
+        height=40,
+        font=ctk.CTkFont(size=16),
+        show="*"
+    )
+    password_entry.pack(pady=(10, 20))
+
+    button = ctk.CTkButton(
+        master=changecred_window,
+        text="Change",
+        font=ctk.CTkFont(size=16, weight="bold"),
+        height=40,
+        width=150,
+        corner_radius=10,
+        command=lambda: [
+            change(username_entry.get(), password_entry.get()),
+            changecred_window.destroy()
+        ]
+    )
+    button.pack(pady=10)
+
+button_change = ctk.CTkButton(
     master=window,
-    text ="Change Credentials",
-    font=("Arial",20),
+    text="Change Credentials",
+    font=ctk.CTkFont(size=18, weight="bold"),
+    height=45,
+    width=220,
+    corner_radius=12,
+    fg_color="#2C74B3",
+    hover_color="#205295",
     command=create_popup
-    )
-button.pack(pady=40)
-
-
-
-
+)
+button_change.pack(pady=20)
 
 window.mainloop()
+
