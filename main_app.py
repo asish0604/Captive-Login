@@ -3,14 +3,18 @@ import json
 from wifi_login import login
 import sys
 
+
 def logger():
     creds = json.load(open("creds.json"))
     username, password = creds["username"], creds["password"]
     login(username, password)
 
+
 if "-l" in sys.argv or "--login" in sys.argv:
     logger()
     sys.exit(0)
+
+
 def change(usr, passw):
     with open("creds.json", "r") as f:
         creds = json.load(f)
@@ -18,6 +22,7 @@ def change(usr, passw):
     creds["password"] = passw
     with open("creds.json", "w") as f:
         json.dump(creds, f, indent=4)
+
 
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")
@@ -32,7 +37,7 @@ label = ctk.CTkLabel(
     master=window,
     text="Login to Wifi",
     font=ctk.CTkFont(size=24, weight="bold"),
-    text_color="#EAEAEA"
+    text_color="#EAEAEA",
 )
 label.pack(pady=(40, 20))
 
@@ -44,7 +49,7 @@ button_login = ctk.CTkButton(
     height=45,
     width=200,
     corner_radius=12,
-    command=logger
+    command=logger,
 )
 button_login.pack(pady=10)
 
@@ -58,7 +63,7 @@ def create_popup():
     title_label = ctk.CTkLabel(
         master=changecred_window,
         text="Update Credentials",
-        font=ctk.CTkFont(size=20, weight="bold")
+        font=ctk.CTkFont(size=20, weight="bold"),
     )
     title_label.pack(pady=(25, 10))
 
@@ -67,7 +72,7 @@ def create_popup():
         placeholder_text="Enter Username",
         width=250,
         height=40,
-        font=ctk.CTkFont(size=16)
+        font=ctk.CTkFont(size=16),
     )
     username_entry.pack(pady=(10, 10))
 
@@ -77,7 +82,7 @@ def create_popup():
         width=250,
         height=40,
         font=ctk.CTkFont(size=16),
-        show="*"
+        show="*",
     )
     password_entry.pack(pady=(10, 20))
 
@@ -90,10 +95,11 @@ def create_popup():
         corner_radius=10,
         command=lambda: [
             change(username_entry.get(), password_entry.get()),
-            changecred_window.destroy()
-        ]
+            changecred_window.destroy(),
+        ],
     )
     button.pack(pady=10)
+
 
 button_change = ctk.CTkButton(
     master=window,
@@ -103,10 +109,8 @@ button_change = ctk.CTkButton(
     width=220,
     corner_radius=12,
     fg_color="#2C74B3",
-    hover_color="#205295",
-    command=create_popup
+    command=create_popup,
 )
 button_change.pack(pady=20)
 
 window.mainloop()
-

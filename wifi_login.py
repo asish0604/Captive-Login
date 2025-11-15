@@ -1,5 +1,6 @@
 import requests
 
+
 def login(username, password):
     # Login URL
     login_url = "http://10.10.10.2:8090/login.xml"
@@ -10,7 +11,7 @@ def login(username, password):
         "username": username,
         "password": password,
         "a": "1738391626450",
-        "producttype": "0"
+        "producttype": "0",
     }
 
     # Headers
@@ -18,7 +19,7 @@ def login(username, password):
         "Content-Type": "application/x-www-form-urlencoded",
         "Origin": "http://10.10.10.2:8090",
         "Referer": "http://10.10.10.2:8090/",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)",
     }
 
     session = requests.Session()
@@ -50,4 +51,3 @@ def login(username, password):
     except requests.exceptions.RequestException as e:
         print(f"An unexpected error occurred: {e}")
         return False
-
