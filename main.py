@@ -56,7 +56,6 @@ class ChangeCredentialsDialog(QDialog):
         self.setup_ui()
 
     def setup_ui(self):
-        # Set dialog background
         self.setStyleSheet(
             """
             QDialog {
@@ -71,21 +70,18 @@ class ChangeCredentialsDialog(QDialog):
         layout.setContentsMargins(30, 35, 30, 30)
         layout.setSpacing(15)
 
-        # Title label with icon
         title_label = QLabel("🔐 Update Credentials")
         title_label.setFont(QFont("Segoe UI", 22, QFont.Weight.Bold))
         title_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         title_label.setStyleSheet("color: #ffffff; margin-bottom: 10px;")
         layout.addWidget(title_label)
 
-        # Subtitle
         subtitle = QLabel("Enter your new login information")
         subtitle.setFont(QFont("Segoe UI", 11))
         subtitle.setAlignment(Qt.AlignmentFlag.AlignCenter)
         subtitle.setStyleSheet("color: #a0a0a0; margin-bottom: 20px;")
         layout.addWidget(subtitle)
 
-        # Username entry
         username_label = QLabel("Username")
         username_label.setFont(QFont("Segoe UI", 10, QFont.Weight.DemiBold))
         username_label.setStyleSheet("color: #e0e0e0; margin-left: 5px;")
@@ -118,7 +114,6 @@ class ChangeCredentialsDialog(QDialog):
 
         layout.addSpacing(10)
 
-        # Password entry
         password_label = QLabel("Password")
         password_label.setFont(QFont("Segoe UI", 10, QFont.Weight.DemiBold))
         password_label.setStyleSheet("color: #e0e0e0; margin-left: 5px;")
@@ -152,7 +147,6 @@ class ChangeCredentialsDialog(QDialog):
 
         layout.addSpacing(20)
 
-        # Change button
         change_button = QPushButton("Update Credentials")
         change_button.setFont(QFont("Segoe UI", 13, QFont.Weight.Bold))
         change_button.setFixedHeight(50)
@@ -200,7 +194,6 @@ class WifiLoginWindow(QMainWindow):
         self.setup_ui()
 
     def setup_ui(self):
-        # Set dark gradient background
         self.setStyleSheet(
             """
             QMainWindow {
@@ -210,7 +203,6 @@ class WifiLoginWindow(QMainWindow):
         """
         )
 
-        # Central widget
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
 
@@ -218,13 +210,11 @@ class WifiLoginWindow(QMainWindow):
         layout.setContentsMargins(30, 40, 30, 30)
         layout.setSpacing(20)
 
-        # Icon/Logo
         icon_label = QLabel("📶")
         icon_label.setFont(QFont("Segoe UI", 48))
         icon_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(icon_label)
 
-        # Title label
         title_label = QLabel("WiFi Login Manager")
         title_label.setFont(QFont("Segoe UI", 26, QFont.Weight.Bold))
         title_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -237,14 +227,12 @@ class WifiLoginWindow(QMainWindow):
         )
         layout.addWidget(title_label)
 
-        # Subtitle
         subtitle = QLabel("Connect to your network instantly")
         subtitle.setFont(QFont("Segoe UI", 11))
         subtitle.setAlignment(Qt.AlignmentFlag.AlignCenter)
         subtitle.setStyleSheet("color: #b0b0b0; margin-bottom: 15px;")
         layout.addWidget(subtitle)
 
-        # Login button
         login_button = QPushButton("🚀 Login Now")
         login_button.setFont(QFont("Segoe UI", 16, QFont.Weight.Bold))
         login_button.setFixedHeight(60)
@@ -274,7 +262,6 @@ class WifiLoginWindow(QMainWindow):
 
         layout.addSpacing(5)
 
-        # Change credentials button
         change_button = QPushButton("⚙️ Change Credentials")
         change_button.setFont(QFont("Segoe UI", 15, QFont.Weight.Bold))
         change_button.setFixedHeight(55)
@@ -304,7 +291,6 @@ class WifiLoginWindow(QMainWindow):
 
         layout.addStretch()
 
-        # Footer info
         footer = QLabel("Secure • Fast • Reliable")
         footer.setFont(QFont("Segoe UI", 9))
         footer.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -327,7 +313,6 @@ class WifiLoginWindow(QMainWindow):
 def main():
     app = QApplication(sys.argv)
 
-    # Set application-wide font
     app.setFont(QFont("Segoe UI", 10))
 
     window = WifiLoginWindow()

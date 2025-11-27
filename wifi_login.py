@@ -1,4 +1,5 @@
 import requests
+import subprocess
 
 
 def login(username, password):
@@ -31,6 +32,7 @@ def login(username, password):
         if response.status_code == 200:
             if "success" in response.text.lower():
                 print("Wifi Login successful!")
+                subprocess.run(["notify-send", "WiFi Login Script", "Login successful"])
                 return True
             else:
                 print("Wifi Login failed!")
