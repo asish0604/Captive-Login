@@ -1,4 +1,5 @@
 import sys
+from pathlib import Path
 import json
 from PyQt6.QtWidgets import (
     QApplication,
@@ -13,13 +14,30 @@ from PyQt6.QtWidgets import (
 )
 from PyQt6.QtCore import Qt, QPropertyAnimation, QEasingCurve, QPoint
 from PyQt6.QtGui import QFont, QColor
-from wifi_login import login
+from wifi_login import login  # assume this is a function
+
+
+def get_creds_path() -> Path:
+    script_dir = Path(__file__).resolve().parent
+    return script_dir / "creds.json"
 
 
 def logger():
-    with open("creds.json") as f:
-        creds = json.load(f)
-    username, password = creds["username"], creds["password"]
+    creds_path = get_creds_path()
+
+    try:
+        with creds_path.open("r") as f:
+            creds = json.load(f)
+    except FileNotFoundError:
+        raise FileNotFoundError(f"creds.json not found at {creds_path}")
+    except json.JSONDecodeError as e:
+        raise ValueError(f"Invalid JSON in creds.json: {e}")
+
+    username = creds.get("username")
+    password = creds.get("password")
+    if not username or not password:
+        raise ValueError("username/password missing in creds.json")
+
     login(username, password)
 
 
@@ -29,11 +47,20 @@ if "-l" in sys.argv or "--login" in sys.argv:
 
 
 def change(usr, passw):
-    with open("creds.json", "r") as f:
-        creds = json.load(f)
+    creds_path = get_creds_path()
+
+    creds = {}
+    if creds_path.exists():
+        try:
+            with creds_path.open("r") as f:
+                creds = json.load(f)
+        except json.JSONDecodeError:
+            creds = {}
+
     creds["username"] = usr
     creds["password"] = passw
-    with open("creds.json", "w") as f:
+
+    with creds_path.open("w") as f:
         json.dump(creds, f, indent=4)
 
 
