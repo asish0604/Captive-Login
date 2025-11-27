@@ -1,119 +1,254 @@
-# Captive-Login
-Script to login to captive portal of Wifi
+# 📶 WiFi Login Manager
 
-# WiFi Captive Portal Login Script
+A beautiful GUI application to automatically login to captive portal WiFi networks with saved credentials.
 
-Welcome to the WiFi Captive Portal Login Script! This script automates the login process for a WiFi captive portal, saving you time and hassle. 🚀
+## ✨ Features
+
+- 🎨 Modern, sleek GUI interface
+- 🔐 Secure credential storage
+- ⚡ Quick login with keyboard shortcut
+- 🔔 Desktop notifications on successful login
+- 🖥️ Cross-platform (Windows & Linux)
 
 ## 📋 Prerequisites
 
-Before you begin, ensure you have the following installed:
-- Python 3.x
-- `requests` library (install using `pip install requests`)
+- Python 3.7 or higher
+- Internet connection
+- Access to the WiFi network that requires login
 
-## 🚀 Getting Started
+## 🚀 Quick Start
 
-### 1. Clone the Repository
+### Step 1: Clone the Repository
 
-First, clone the repository to your local machine:
-```sh
+```bash
 git clone https://github.com/asish0604/Captive-Login.git
-cd wifi-login
+cd Captive-Login
 ```
 
-### 2. Replace Credentials
+### Step 2: Install Dependencies
 
-Open the wifi-login.py file and replace YOUR_USERNAME and YOUR_PASSWORD with your actual username and password:
+```bash
+pip install requests PyQt6
+```
 
-```python
-import requests
+**What gets installed:**
 
-# Login URL
-login_url = "http://10.10.10.2:8090/login.xml"
+- `requests` - For making HTTP requests to the login portal
+- `PyQt6` - For the graphical user interface (includes PyQt6.QtWidgets, PyQt6.QtCore, PyQt6.QtGui)
 
-# Form data (replace with your actual credentials)
-payload = {
-    "mode": "191",
-    "username": "YOUR_USERNAME",  # Your college username
-    "password": "YOUR_PASSWORD",  # Your password
-    "a": "1738391626450",  # Dynamic value (may need updating)
-    "producttype": "0"
+**Built-in Python modules (no install needed):**
+
+- `subprocess` - For running system commands and notifications
+- `json` - For storing and reading credentials
+- `sys` - For command-line arguments and system operations
+
+### Step 3: Run the Application
+
+```bash
+python main.py
+```
+
+### Step 4: Setup Your Credentials
+
+1. The GUI will open
+2. Click **"⚙️ Change Credentials"**
+3. Enter your WiFi username and password
+4. Click **"Update Credentials"**
+5. Click **"🚀 Login Now"** to connect!
+
+That's it! Your credentials are saved for next time.
+
+## 💻 Usage
+
+### GUI Mode (Interactive)
+
+Run the application with the graphical interface:
+
+```bash
+python main.py
+```
+
+This will open a window where you can:
+
+- Click "Login Now" to connect
+- Click "Change Credentials" to update your username/password
+
+### Command Line Mode (Quick Login)
+
+For quick login without GUI (perfect for scripts and shortcuts):
+
+```bash
+python main.py --login
+```
+
+or
+
+```bash
+python main.py -l
+```
+
+## ⚙️ Auto-Start Setup
+
+### 🐧 Linux
+
+**Get the full path to your script:**
+
+```bash
+pwd  # Copy this path, you'll need it below
+```
+
+#### Option 1: Keyboard Shortcut (Niri/Sway/i3)
+
+For **Niri**, add to `~/.config/niri/config.kdl`:
+
+```kdl
+binds {
+    Mod+Shift+W { spawn "sh" "-c" "cd /home/YOUR_USERNAME/Captive-Login && python main.py -l"; }
 }
-
-# Headers (copied from the request)
-headers = {
-    "Content-Type": "application/x-www-form-urlencoded",
-    "Origin": "http://10.10.10.2:8090",
-    "Referer": "http://10.10.10.2:8090/",
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)"
-}
-
-# Create a session
-session = requests.Session()
-
-# Send the POST request
-response = session.post(login_url, data=payload, headers=headers)
-
-# Check if login was successful
-if response.status_code == 200 and "success" in response.text.lower():
-    print("Login successful!")
-else:
-    print("Login failed!")
-    print(response.text)  # Print the response to debug
 ```
-3. Get Dynamic Values
-To get the dynamic values required for the script:
 
-Open your browser and navigate to the login page.
-Right-click on the page and select "Inspect" or press Ctrl+Shift+I to open the developer tools.
-Go to the "Network" tab and perform a login attempt.
-Find the login request and inspect the form data to get the dynamic values (e.g., a).
-4. Run the Script
-Run the script using the following command:
+For **i3/Sway**, add to config:
 
-python wifi-login.py
-
-🖥️ Automate on Windows
-1. Create a Batch File
-Open Notepad and paste the following content:
-```markdown
-@echo off
-python C:\path\to\wifi-login.py
+```bash
+bindsym $mod+Shift+w exec "cd /home/YOUR_USERNAME/Captive-Login && python main.py -l"
 ```
-Save the file as wifi-login.bat.
 
-2. Move the Batch File to the Startup Folder
-Move wifi-login.bat to C:\Users\asish\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\.
+Replace `/home/YOUR_USERNAME/Captive-Login` with the path you copied above.
 
-🐧 Automate on Unix/Linux
-1. Create a Shell Script
-Open a terminal and create a new file:
+#### Option 2: Quick Alias
 
-nano wifi-login.sh
+Add to `~/.bashrc` or `~/.zshrc`:
 
-Paste the following content:
-#!/bin/bash
-python3 /path/to/wifi-login.py
+```bash
+alias wifi-login="cd /home/YOUR_USERNAME/Captive-Login && python main.py -l"
+```
 
-Save and close the file.
+Then reload: `source ~/.bashrc`
 
-2. Make the Script Executable
-Make the script executable:
+Now just type `wifi-login` in terminal!
 
-chmod +x wifi-login.sh
+#### Option 3: Desktop Entry
 
-3. Add the Script to Startup
-Open the crontab editor:
+Create `~/.local/share/applications/wifi-login.desktop`:
 
-crontab -e
+```ini
+[Desktop Entry]
+Name=WiFi Login
+Comment=Login to Captive Portal WiFi
+Exec=sh -c "cd /home/YOUR_USERNAME/Captive-Login && python main.py"
+Icon=network-wireless
+Terminal=false
+Type=Application
+Categories=Network;Utility;
+```
 
-Add the following line to run the script at startup:
+Replace the path with yours.
 
-@reboot /path/to/wifi-login.sh
+### 🪟 Windows
 
-📄 License
-This project is licensed under the MIT License - see the LICENSE file for details.
+**Get the full path to your script:**
 
-📞 Contact
-For any issues or questions, please open an issue on GitHub.
+1. Open the folder in File Explorer
+2. Click the address bar and copy the path (e.g., `C:\Users\YourName\Captive-Login`)
 
+#### Option 1: Startup Folder (Auto-run on Login)
+
+1. Press `Win + R` and type: `shell:startup`
+2. Create `wifi-login.bat` in that folder
+3. Edit it and add (replace path):
+   ```batch
+   @echo off
+   cd C:\Users\YourName\Captive-Login
+   python main.py -l
+   ```
+4. Save
+
+Now auto-logins when Windows starts!
+
+#### Option 2: Desktop Shortcut
+
+1. Right-click Desktop → New → Shortcut
+2. Enter:
+   ```
+   cmd /c "cd C:\Users\YourName\Captive-Login && python main.py"
+   ```
+3. Name it "WiFi Login"
+
+#### Option 3: Keyboard Shortcut
+
+1. Create desktop shortcut (see above)
+2. Right-click → Properties
+3. Click "Shortcut key" field
+4. Press desired keys (e.g., `Ctrl + Alt + W`)
+5. Click OK
+
+## 🔔 Notifications
+
+The script sends desktop notifications on successful login:
+
+- **Linux**: Uses `notify-send` (pre-installed on most distros)
+- **Windows**: Desktop notifications currently under development
+
+If notifications don't work on Linux, install:
+
+```bash
+sudo apt install libnotify-bin  # Ubuntu/Debian
+sudo pacman -S libnotify        # Arch Linux
+```
+
+## 🛠️ Troubleshooting
+
+### "Module not found" error
+
+```bash
+pip install requests PyQt6
+```
+
+### Notification daemon conflict (Linux)
+
+If using COSMIC/Noctalia and getting duplicate notifications:
+
+```bash
+killall mako
+systemctl --user mask mako.service
+```
+
+### Can't connect to WiFi login page
+
+- Make sure you're connected to the WiFi network first
+- Check if the login URL in `wifi_login.py` matches your network
+- The default URL is `http://10.10.10.2:8090/login.xml`
+
+### Script doesn't auto-start
+
+- **Linux**: Check file paths in your config files
+- **Windows**: Verify Python is in your PATH (`python --version` in cmd)
+
+## 📁 File Structure
+
+```
+Captive-Login/
+├── main.py           # Main GUI application
+├── wifi_login.py     # Login logic
+├── creds.json        # Your credentials (you create this)
+└── README.md         # This file
+```
+
+## 🔒 Security Notes
+
+- `creds.json` stores credentials in plain text
+- Keep this file secure and don't share it
+- Don't commit `creds.json` to version control
+- Consider setting file permissions: `chmod 600 creds.json` (Linux)
+
+## 📝 License
+
+Free to use and modify for personal use.
+
+## 🤝 Contributing
+
+Feel free to submit issues or pull requests!
+
+---
+
+**Made with ❤️ for easier WiFi logins**
