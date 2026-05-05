@@ -4,7 +4,7 @@ import subprocess
 
 def login(username, password):
     # Login URL
-    login_url = "http://10.10.10.2:8090/login.xml"
+    login_url = "http://10.10.200.1:8090/login.xml"
 
     # Form data
     payload = {
